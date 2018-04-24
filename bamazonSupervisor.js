@@ -54,7 +54,7 @@ function afterConnectionOperation() {
 // *************** QUERY - PRODUCT SALES BY DEPARTMENT ****************
 function viewProductSales() {
     
-    var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.department_name, SUM(products.product_sales) AS department_sales"
+    var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, products.department_name, SUM(products.product_sales) AS department_sales, SUM(products.product_sales) - departments.over_head_costs as total_profit"
     query += " FROM departments INNER JOIN products ON products.department_name = departments.department_name"
     query += " GROUP BY department_id"
     connection.query(query, function (error, data) {
@@ -75,9 +75,8 @@ function table(data) {
     });
     //loop through each item in the mysql bamazon database and push data into a new row in the table
     for (var i = 0; i < data.length; i++) {
-        var totalProfit = (data[i].department_sales - data[i].over_head_costs).toFixed(2);
         table.push(
-            [data[i].department_id, data[i].department_name, (data[i].over_head_costs).toFixed(2), (data[i].department_sales).toFixed(2), totalProfit],
+            [data[i].department_id, data[i].department_name, (data[i].over_head_costs).toFixed(2), (data[i].department_sales).toFixed(2), (data[i].total_profit).toFixed(2)],
         );
     };
     console.log(table.toString());

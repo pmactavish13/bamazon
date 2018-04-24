@@ -249,6 +249,6 @@ function updateDatabase(updateData) {
 function closeConnection () {
     setTimeout( function(){
         connection.end();
-      }, 4000 );       
+      }, 3000 );       
 };
 
